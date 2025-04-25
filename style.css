@@ -1,0 +1,255 @@
+/* style.css (完全版 - ヒーローセクションデザイン追加) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap'); /* 900ウェイト追加 */
+
+:root{
+  --primary-color:#0068b7;
+  --secondary-color:#00a0e9;
+  --accent-bg:#f0f8ff; /* 少し薄い青 */
+  --text:#333;
+  --bg:#fff;
+  --anim:0.6s;
+  /* ▼▼▼ グラデーション用カラー追加 ▼▼▼ */
+  --primary-darker: #004a8d;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Noto Sans JP',sans-serif;
+  background:#f0f0f0; /* 全体の背景を少しグレーに */
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x: hidden;
+}
+
+/* 共通ブロック */
+.block{
+  padding:6vh 6vw;
+  max-width:1080px;
+  margin: 1rem auto;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity var(--anim) ease-out,transform var(--anim) ease-out;
+  background: var(--bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.block.visible{
+  opacity:1;
+  transform:none;
+}
+
+/* セクション交互背景 */
+section.block:nth-of-type(even){
+    background:var(--accent-bg);
+}
+/* 最初のブロックはヒーローセクション専用スタイルに */
+section.block:first-of-type {
+    /* ▼▼▼ ヒーローセクション用スタイルで上書き ▼▼▼ */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-darker) 100%); /* グラデーション背景 */
+    box-shadow: 0 6px 15px rgba(0, 74, 141, 0.3); /* 影を調整 */
+    margin-top: 0;
+    padding: 10vh 6vw; /* 上下のパディングを増やす */
+    text-align: center;
+    color: #fff; /* 文字色を白に */
+    border-radius: 0 0 15px 15px; /* 下部の角だけ丸める（オプション） */
+    margin-bottom: 2rem; /* 次のセクションとの間隔を少し広げる */
+}
+/* ▲▲▲ ヒーローセクション用スタイル ▲▲▲ */
+
+/* ▼▼▼ ヒーローセクション内の要素スタイル ▼▼▼ */
+.hero-section h1 {
+    color: #fff; /* 文字色を白に */
+    font-weight: 900; /* より太いフォントウェイト */
+    margin-bottom: 0.5em;
+    font-size: clamp(2rem, 8vw, 3.5rem); /* フォントサイズを大きく */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* 文字に影 */
+}
+.hero-section .subtitle {
+    color: rgba(255, 255, 255, 0.85); /* 少し透明度のある白 */
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    margin: 0;
+}
+/* ▲▲▲ ヒーローセクション内要素 ▲▲▲ */
+
+
+/* Typography */
+/* h1のスタイルは.hero-section h1で上書きされる */
+h2{font-size:clamp(1.4rem,5.8vw,2.1rem);color:var(--primary-color);font-weight:700;margin: 1.5em 0 .8em; padding-bottom: 0.3em;
+    border-bottom:3px solid var(--secondary-color);display:flex;align-items:center; gap: 0.5em;}
+h3{font-size:clamp(1.15rem,5vw,1.5rem);font-weight:700;margin-top: 1.8em; margin-bottom: 0.6em; color: var(--primary-color); opacity: 0.9;}
+h4 {font-size:clamp(1.0rem, 4.5vw, 1.25rem); font-weight: 700; margin-top: 1.5em; margin-bottom: 0.5em; color: #555;}
+
+p,li{font-size:clamp(0.92rem,4vw,1rem);margin-bottom:.8em}
+ul, ol { padding-left: 1.5em; margin-bottom: 1em; }
+ul ul, ol ol, ul ol, ol ul { margin-top: 0.5em; margin-bottom: 0.5em;}
+li { margin-bottom: 0.5em; }
+strong { color: var(--primary-color); font-weight: 700; }
+u { text-decoration-thickness: 2px; text-decoration-color: var(--secondary-color); }
+a { color: var(--secondary-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+sup { font-size: 0.7em; vertical-align: super; margin-left: 2px; color: #777;}
+
+
+/* 目次ドロワー */
+.toc-drawer{
+  position:fixed;top:0;left:-85%;width:80%;max-width: 320px; height:100%;background:#fff;
+  box-shadow:2px 0 12px rgba(0,0,0,.15);
+  padding: 40px 1.5em 2em;
+  transition: left 0.4s ease-in-out; z-index: 1100;
+  overflow-y: auto;
+}
+.toc-drawer.open{left:0}
+.toc-drawer .close{
+    background:none;border:none;font-size:1.8rem;position:absolute;top:10px;right:10px; color: var(--primary-color); cursor: pointer; padding: 5px; line-height: 1;
+}
+.toc-drawer ul{
+  list-style:none;
+  margin-top: 0.5em;
+  padding-left: 0;
+}
+.toc-drawer li{
+  margin-bottom: 0.8em;
+  font-size: 0.95rem;
+}
+.toc-drawer li a {
+  color: var(--text);
+  display: block;
+  padding: 0.4em 0.2em;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.toc-drawer li a:hover {
+  color: var(--primary-color);
+  background-color: var(--accent-bg);
+}
+
+.toc-toggle{
+  position:fixed;top:1rem;left:1rem;background:var(--primary-color);color:#fff;
+  border:none;width:2.8rem;height:2.8rem;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;font-size:1.3rem;z-index:1000; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ToTop ボタン */
+.to-top{
+  position:fixed;bottom:1.5rem;right:1.3rem;background:var(--primary-color);color:#fff;
+  border:none;width:2.8rem;height:2.8rem;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.3rem;opacity:0;transition: opacity 0.3s, visibility 0.3s;cursor:pointer; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  visibility: hidden;
+}
+.to-top.visible {
+    opacity: 0.8;
+    visibility: visible;
+}
+.to-top:hover {
+    opacity: 1;
+}
+
+
+/* テーブル スタイル */
+.table-container {
+  overflow-x: auto;
+  margin: 1.5em 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition-delay: 0.1s;
+}
+.block.visible .table-container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.comparison-table, .cost-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid #ddd;
+}
+
+.comparison-table th, .comparison-table td,
+.cost-table th, .cost-table td {
+  border: 1px solid #ddd;
+  padding: 0.6em 0.8em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.comparison-table th, .cost-table th {
+  background-color: var(--accent-bg);
+  font-weight: bold;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.comparison-table td:first-child, .cost-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #fff;
+  z-index: 1;
+   font-weight: bold;
+}
+.comparison-table thead th:first-child, .cost-table thead th:first-child {
+    z-index: 2;
+    background-color: var(--accent-bg);
+}
+
+
+.comparison-table tbody tr:nth-child(odd),
+.cost-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+.comparison-table tbody tr:nth-child(odd) td:first-child,
+.cost-table tbody tr:nth-child(odd) td:first-child {
+    background-color: #f9f9f9;
+}
+
+
+.star-rating {
+    color: #f8d347;
+    white-space: nowrap;
+    font-size: 1.1em;
+}
+
+.note {
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 1em;
+    line-height: 1.5;
+}
+.note ul { padding-left: 1em;}
+
+/* 出典一覧スタイル */
+.references-list {
+  list-style: none;
+  padding-left: 0;
+  font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+  line-height: 1.7;
+}
+
+.references-list li {
+  margin-bottom: 0.6em;
+  word-break: break-all;
+}
+
+.references-list li a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.references-list li a:hover {
+  text-decoration: underline;
+  color: var(--primary-color);
+}
+
+.references-list .disabled-link {
+    color: #888;
+    font-style: italic;
+}
